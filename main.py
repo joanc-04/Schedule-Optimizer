@@ -145,6 +145,9 @@ class Schedule:
         :return: La combinaison de créneaux
         """
 
+        open("log.txt", "w").close()
+        self.write_log(f"Créneaux demandés : {str(self.slots)}")
+
         sorted_slots = sorted(self.slots, key=lambda x: x[1])  # Trie les créneaux par heure de fin croissante
         schedule = []
         last_end = -1
@@ -154,17 +157,58 @@ class Schedule:
                 schedule.append((H_start, H_end)) # On ajoute ce créneau au planning
                 last_end = H_end
 
-        return sorted(schedule, key=lambda x: x[0]) # On renvoie le planning en triant par heure de début
+        chosenCombination = sorted(schedule, key=lambda x: x[0]) # Trie le planning par heure de début
+        self.write_log(f"\nCombinaison de créneaux obtenue : {chosenCombination}")
+        return chosenCombination
+
+# BIEN RECOMMENTER ENTRE CHAQUE TESTS
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+                    TESTS 1
+"""""""""""""""""""""""""""""""""""""""""""""""""""
 
 # Données de test
 slots_test = set([(2, 5), (7, 9), (3, 9), (2, 6), (4, 7)])
 
 # On utilise l'ensemble de créneaux demandés passé en paramètre.
-schedule = Schedule(slots=slots_test)
-print(schedule.get_scheduleOptimal(1))
-print(schedule.get_scheduleOptimal(2))
+# schedule = Schedule(slots=slots_test)
+# print(schedule.get_scheduleOptimal(1))
+# print(schedule.get_scheduleOptimal(2))
+# print(schedule.get_scheduleOptimal_glouton())
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+                    TESTS 2
+"""""""""""""""""""""""""""""""""""""""""""""""""""
 
 # On génère aléatoirement un ensemble de créneaux demandés
 schedule = Schedule()
 print(schedule.get_scheduleOptimal(1))
 print(schedule.get_scheduleOptimal(2))
+print(schedule.get_scheduleOptimal_glouton())
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+                    TESTS 3
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+
+# schedule = Schedule(H_max=20, length=100)
+# combination = schedule.get_scheduleOptimal_glouton()
+# print(combination)
+# print("Taille de la combinaison de créneaux :", len(combination))
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+                    TESTS 4
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+
+# schedule = Schedule(H_max=1000, length=10000)
+# combination = schedule.get_scheduleOptimal_glouton()
+# print(combination)
+# print("Taille de la combinaison de créneaux :", len(combination))
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+                    TESTS 5
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+
+# schedule = Schedule(H_max=1000, length=100000)
+# combination = schedule.get_scheduleOptimal_glouton()
+# print(combination)
+# print("Taille de la combinaison de créneaux :", len(combination))
